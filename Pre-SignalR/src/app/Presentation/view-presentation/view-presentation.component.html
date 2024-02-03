@@ -1,1 +1,22 @@
-<p>view-presentation works!</p>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-primary" role="alert">
+                <span class="d-flex  justify-content-start"> Run Your Audience Poject Port <span
+                        class="mx-2"><b>4201</b></span></span>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success">Enable Audience Comment Box</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="messageList?.length > 0">
+        <div class="col-4" *ngIf="let item of messageList">
+            <div class="card">
+                <div class="card-body">
+                    {{item}}
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
