@@ -1,1 +1,27 @@
-<p>sent-message works!</p>
+<div class="container">
+    <div class="row my-5" *ngIf="!isShow">
+        <div class="col-12">
+            <div class="alert alert-primary d-flex justify-content-center" role="alert">
+                Kindly wait while the presenter side message is enabled.
+            </div>
+        </div>
+    </div>
+    <div class="row my-5" *ngIf="isShow">
+        <div class="col-12">
+            <form [formGroup]="sentMessageForm">
+                <div class="mb-3">
+                    <label for="inputBox" class="form-label">Enter Your Name</label>
+                    <input type="text" class="form-control" id="inputBox" placeholder="Enter text" formControlName="Name">
+                </div>
+                <div class="mb-3">
+                    <label for="textAreaBox" class="form-label">Message</label>
+                    <textarea class="form-control" id="textAreaBox" rows="3" placeholder="Enter text here" formControlName="Message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            </form>
+            <div class="alert alert-success d-flex justify-content-center my-5" role="alert" >
+                Message Sent Successfully
+            </div>
+        </div>
+    </div>
+</div>
