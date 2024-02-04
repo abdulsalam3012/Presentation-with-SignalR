@@ -19,6 +19,7 @@ export class CreatePresentationComponent implements OnInit {
   CreatePresentation() {
     this._presentationService.createPresentation().then(
       (response: any) => {
+        this._presentationService.presentationId = response;
         this._router.navigateByUrl("viewpresentation");
       },
       (error: any) => {

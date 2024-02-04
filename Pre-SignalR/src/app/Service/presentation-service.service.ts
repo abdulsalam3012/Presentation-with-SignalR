@@ -11,6 +11,7 @@ export class PresentationServiceService {
   presentationConnection: HubConnection;
   public message$ = new BehaviorSubject<any>([]);
   public message :any[]=[];
+  public presentationId:any;
   constructor(private _httpClient: HttpClient) { }
 
   // Create Connection

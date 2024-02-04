@@ -8,8 +8,9 @@ import { PresentationServiceService } from 'src/app/Service/presentation-service
 })
 export class ViewPresentationComponent implements OnInit {
   messageList: any[] = [];
+  presentationId: any;
   constructor(private _presentationService: PresentationServiceService) {
-
+   this.presentationId = this._presentationService.presentationId;
   }
   ngOnInit(): void {
     this.getMessages();
