@@ -12,6 +12,7 @@ export class MessageServiceService {
   presentationConnection: HubConnection;
   public enableAudience$ = new BehaviorSubject<any>(null);
   public enableAudience :any;
+  public presenationId :any;
   constructor(private _httpClient: HttpClient) {
     this.createPresentationConnection();
    }
@@ -41,7 +42,12 @@ export class MessageServiceService {
     return this.presentationConnection.invoke("JoinGroup", presentationId).catch(error => console.log(error));
   }
   // Sent Messsage To Presenter
-  public async SendMessageToPresenter(messageDTO:any){
-    return this.presentationConnection.invoke("SendMessageToPresenter",{messageDTO}).catch(error => console.log(error));
+  public async SendMessageToPresenter(message:any){
+    var messageDTO={
+      Name:message?.Name,
+      Message:message?.Message,
+      PresentationId:this.presenationId
+    }
+    return this.presentationConnection.invoke("SendMessageToPresenter",messageDTO).catch(error => console.log(error));
   }
 }
