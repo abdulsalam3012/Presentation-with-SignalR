@@ -15,7 +15,7 @@ namespace Presentation_SignalR.Services
             {
                 PresentationRoomConnectionId = connectionId,
                 PresentationId = presentationId
-            };
+            };  
             return Task.FromResult(id);
         }
         public Task<Guid> GetPresentationRoomForConnectionId(string connectionId)

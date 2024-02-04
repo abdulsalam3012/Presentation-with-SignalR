@@ -1,4 +1,6 @@
 using Presentation_SignalR.Hub;
+using Presentation_SignalR.Model;
+using Presentation_SignalR.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IDictionary<Guid, PresentationRoom>>(IServiceProvider =>
+new Dictionary<Guid, PresentationRoom>());
+builder.Services.AddSingleton<IPresentationRoomService, PresentationRoomService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowHeaders",
@@ -22,6 +27,7 @@ builder.Services.AddCors(options =>
             policy.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials();
         });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
