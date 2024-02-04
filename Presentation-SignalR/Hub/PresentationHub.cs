@@ -23,22 +23,22 @@ namespace Presentation_SignalR.Hub
         }
         public async Task SendMessageToPresenter(MessageDTO messageDTO)
         {
-            messageDTO.Date = DateTime.Now;
-            var roomId = await _presentationRoomService.GetPresentationRoomForConnectionId(Context.ConnectionId);
+            var roomId = await _presentationRoomService.GetPresentationRoomForConnectionIdUsingPresentationId(messageDTO.PresentationId);
             await Clients.Group(roomId.ToString()).SendAsync("ReceiveMessageFromAudience",messageDTO);
+            await base.OnConnectedAsync();
         }
         public async Task EnableAudience(EnableAudienceDTO enableAudienceDTO)
         {
             var roomId = await _presentationRoomService.GetPresentationRoomForConnectionId(Context.ConnectionId);
             await Clients.Group(roomId.ToString()).SendAsync("EnableAudience", enableAudienceDTO);
         }
-        public async Task<bool> JoinGroup(string presentationId)
+        public async Task<string> JoinGroup(string presentationId)
         {
             var roomId = await _presentationRoomService.GetPresentationRoomForConnectionIdUsingPresentationId(presentationId);
             await Groups.AddToGroupAsync(Context.ConnectionId,roomId.ToString());
             await Clients.Caller.SendAsync("ReceiveMessage", "Foo", DateTimeOffset.UtcNow, "bar");
             await base.OnConnectedAsync();
-            return true;
+            return presentationId;
         }
 
     }
