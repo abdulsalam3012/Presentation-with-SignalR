@@ -3,6 +3,7 @@ import { AckMessage, HubConnection } from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr/dist/esm/HubConnectionBuilder';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import * as signalR from '@microsoft/signalr';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,16 +12,18 @@ export class MessageServiceService {
   presentationConnection: HubConnection;
   public enableAudience$ = new BehaviorSubject<any>(null);
   public enableAudience :any;
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient) {
+    this.createPresentationConnection();
+   }
   // Create Connection
   createPresentationConnection() {
     // Define Connection
-    this.presentationConnection = new HubConnectionBuilder()
-      .withUrl(`${URL}presentation`).withAutomaticReconnect().build();
+    this.presentationConnection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Information)
+    .withUrl(this.URL+'presentation').withAutomaticReconnect().build();
     // Start Connection
-    this.presentationConnection.start().catch(error => {
-      console.log(error);
-    });
+    this.presentationConnection.start().then(() => console.log('Connection started'))
+      .catch((err) => console.log('Error while starting connection: ' + err));
 
     // Enable Audience
     this.presentationConnection.on("EnableAudience",(data:any)=>{
