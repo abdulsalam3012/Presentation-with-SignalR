@@ -28,5 +28,15 @@ namespace Presentation_SignalR.Services
 
             return Task.FromResult(presentationRoom.Key);
         }
+        public Task<Guid> GetPresentationRoomForConnectionIdUsingPresentationId(string presentationId)
+        {
+            var presentationRoom = _connections.FirstOrDefault(
+                x => x.Value.PresentationId == presentationId);
+
+            if (presentationRoom.Key == Guid.Empty)
+                throw new ArgumentException("Invalid connection ID");
+
+            return Task.FromResult(presentationRoom.Key);
+        }
     }
 }
