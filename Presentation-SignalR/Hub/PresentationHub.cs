@@ -12,13 +12,14 @@ namespace Presentation_SignalR.Hub
             _presentationRoomService = presentationRoomService;
         }
 
-        public async Task AddGroup()
+        public async Task<string> AddGroup()
         {
             var presentationId = Guid.NewGuid().ToString();
             var presentationRoomId = await _presentationRoomService.CreatePresentationRoom(Context.ConnectionId, presentationId);
             await Groups.AddToGroupAsync(Context.ConnectionId, presentationRoomId.ToString());
             await Clients.Caller.SendAsync("ReceiveMessage", "Foo", DateTimeOffset.UtcNow, "bar");
             await base.OnConnectedAsync();
+            return presentationId;
         }
         public async Task SendMessageToPresenter(MessageDTO messageDTO)
         {
