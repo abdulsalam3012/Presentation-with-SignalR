@@ -27,7 +27,7 @@ export class PresentationServiceService {
     this.presentationConnection.start().then(() => console.log('Connection started'))
       .catch((err) => console.log('Error while starting connection: ' + err));
     this.presentationConnection.on('ReceiveMessageFromAudience', (data: any) => {
-      this.message = [...data];
+      this.message.push(data);
       this.message$.next(this.message);
     })
   }
@@ -43,11 +43,11 @@ export class PresentationServiceService {
   }
 
   // Sent Message 
-  public async sentMessageToAudience() {
+  public async enableAudienceMessage() {
     var EnableAudienceDTO = {
       isShow: true
     }
-    return this.presentationConnection.invoke("EnableAudience", { EnableAudienceDTO }).catch(error => console.log(error));
+    return this.presentationConnection.invoke("EnableAudience",EnableAudienceDTO).catch(error => console.log(error));
   }
 
 }

@@ -25,4 +25,7 @@ export class ViewPresentationComponent implements OnInit {
       }
     )
   }
+  enableAudienceMessage(){
+    this._presentationService.enableAudienceMessage();
+  }
 }
